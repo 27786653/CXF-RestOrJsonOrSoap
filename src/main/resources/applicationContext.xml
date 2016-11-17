@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jaxws="http://cxf.apache.org/jaxws" 
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+       http://www.springframework.org/schema/context 
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+       ">
+	
+	<context:component-scan base-package="com.sn"></context:component-scan>
+	
+	<jaxws:endpoint 
+	  id="helloWorld" 
+	  implementor="com.sn.webservice.romte.impl.HelloWorldImpl" 
+	  address="/HelloWorld" />
+	
+	<jaxrs:server id="fooBarWs" address="/foobar">
+		<jaxrs:serviceBeans>
+			<ref bean="fooBarWS" />
+		</jaxrs:serviceBeans>
+	</jaxrs:server>
+	
+		<jaxrs:server id="bookServiceWs" address="/book">
+		<jaxrs:serviceBeans>
+			<ref bean="bookServiceWS" />
+		</jaxrs:serviceBeans>
+	</jaxrs:server>
+</beans>
