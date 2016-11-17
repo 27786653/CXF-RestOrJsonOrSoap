@@ -1,4 +1,4 @@
-package com.sn.service;
+package com.yuhi.service;
 
 import org.springframework.stereotype.Service;
 

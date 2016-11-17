@@ -1,4 +1,4 @@
-package com.sn.webservice.util;
+package com.yuhi.webservice.util;
 
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.NewCookie;

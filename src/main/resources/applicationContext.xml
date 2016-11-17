@@ -10,21 +10,22 @@
        http://www.springframework.org/schema/context/spring-context.xsd
        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
        ">
-	
-	<context:component-scan base-package="com.sn"></context:component-scan>
-	
+	<!-- 扫描注解 -->
+	<context:component-scan base-package="com.yuhi"></context:component-scan>
+	<!-- soap -->
 	<jaxws:endpoint 
 	  id="helloWorld" 
-	  implementor="com.sn.webservice.romte.impl.HelloWorldImpl" 
+	  implementor="com.yuhi.webservice.romte.impl.HelloWorldImpl" 
 	  address="/HelloWorld" />
 	
+	<!-- 发布RESTful服务 -->
 	<jaxrs:server id="fooBarWs" address="/foobar">
 		<jaxrs:serviceBeans>
 			<ref bean="fooBarWS" />
 		</jaxrs:serviceBeans>
 	</jaxrs:server>
 	
-		<jaxrs:server id="bookServiceWs" address="/book">
+	<jaxrs:server id="bookServiceWs" address="/book">
 		<jaxrs:serviceBeans>
 			<ref bean="bookServiceWS" />
 		</jaxrs:serviceBeans>

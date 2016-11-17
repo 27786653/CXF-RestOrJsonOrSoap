@@ -17,13 +17,13 @@
  * under the License.
  */
 // START SNIPPET: service
-package com.sn.webservice.romte.impl;
+package com.yuhi.webservice.romte.impl;
 
 import javax.jws.WebService;
 
-import com.sn.webservice.romte.HelloWorld;
+import com.yuhi.webservice.romte.HelloWorld;
 
-@WebService(endpointInterface = "com.sn.webservice.romte.HelloWorld")
+@WebService(endpointInterface = "com.yuhi.webservice.romte.HelloWorld")
 public class HelloWorldImpl implements HelloWorld {
 
     public String sayHi(String text) {

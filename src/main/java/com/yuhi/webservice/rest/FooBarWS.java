@@ -1,6 +1,4 @@
-package com.sn.webservice.rest;
-
-import java.util.Date;
+package com.yuhi.webservice.rest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -10,11 +8,9 @@ import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSONArray;
-import com.sn.entity.UserInfo;
-import com.sn.entity.book;
-import com.sn.service.FooBarService;
-import com.sn.webservice.util.BaseWsRespnose;
+import com.yuhi.entity.UserInfo;
+import com.yuhi.service.FooBarService;
+import com.yuhi.webservice.util.BaseWsRespnose;
 
 @Component
 public class FooBarWS extends BaseWsRespnose {

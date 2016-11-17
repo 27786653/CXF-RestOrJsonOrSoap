@@ -17,7 +17,7 @@
  * under the License.
  */
 // START SNIPPET: service
-package com.sn.webservice.romte;
+package com.yuhi.webservice.romte;
 
 import javax.jws.WebService;
 /**
