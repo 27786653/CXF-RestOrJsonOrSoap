@@ -1,5 +1,48 @@
 # 集成CXF发布WebServer服务(SOAP,RESTful,JSON)
 
+
+
+## 利用cxf生成soap方式调用WebService代码
+```
+wsdl2java.bat  -p {包名} -encoding UTF-8 {远程地址}
+
+例：wsdl2java.bat  -p com.yuhi.ws -encoding UTF-8 http://www.webxml.com.cn/WebServices/RandomFontsWebService.wsdl
+
+```
+
+## 直接调用即可
+```java
+    @Test
+    public  void testws(){
+        RandomFontsWebService service=new RandomFontsWebService();
+//        service.getRandomFonts
+        ArrayOfString charFonts = service.getRandomFontsWebServiceSoap().getCharFonts(10);
+        ArrayOfString chineseFonts = service.getRandomFontsWebServiceSoap().getChineseFonts(10);
+        System.out.println(charFonts);
+    }
+
+```
+
+##问题. 
+### 使用代码总是请求一个错误的地址
+CXF生成代码，因为服务器内部是80端口外网是30744端口转发请求
+![问题截图](picture/端口转发问题默认显示还是内部端口.png "login")
+在生成的PublicService中发现了会请求这个协议文档，得到请求的地址，所以会出错
+
+### 解决方案：
+使用idea的Webservice生成插件生成，会吧这个请求协议文档转换为本地文件
+![截图](picture/PublicService请求的webservice协议文件取决了请求的地址.png "login")
+然后自己改下这个本地文件加上端口即可解决问题
+
+
+
+
+
+
+
+
+
+
 ---
 
 ## 项目介绍
@@ -12,7 +55,7 @@
 4. 服务列表可访问：http://localhost:8080/Spring-CXF/ws/
 ### applicationContext.xml
 
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
@@ -49,7 +92,7 @@
 ```
 ### soap实现
 
-```
+```java
 //接口
 @WebService
 public interface HelloWorld {
@@ -67,7 +110,7 @@ public class HelloWorldImpl implements HelloWorld {
 ```
 ### restful实现
 
-```
+```java
 @Component
 public class FooBarWS extends BaseWsRespnose {
 	@Autowired
@@ -104,7 +147,7 @@ public class FooBarWS extends BaseWsRespnose {
 ```
 ### pom依赖
 
-```
+```xml
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -190,7 +233,7 @@ public class FooBarWS extends BaseWsRespnose {
 ```
 ### web.xml
 
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" id="WebApp_ID" version="2.4">
   <display-name>Spring CXF</display-name>
@@ -218,3 +261,39 @@ public class FooBarWS extends BaseWsRespnose {
 </web-app>
 ```
 
+
+
+### http调用方式
+访问地址：http://localhost:9090/ws/HelloWorld  
+访问参数：  
+```xml
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <ns2:sayHi xmlns:ns2="http://romte.webservice.yuhi.com/">
+            <arg0>kongxx</arg0>
+        </ns2:sayHi>
+    </soap:Body>
+</soap:Envelope>
+```
+返回参数：  
+```xml
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <ns2:sayHiResponse xmlns:ns2="http://romte.webservice.yuhi.com/">
+            <return>Hello kongxx</return>
+        </ns2:sayHiResponse>
+    </soap:Body>
+</soap:Envelope>
+```
+
+###CXF客户端调用方式：
+```java
+public static void main(String[] args) {
+        JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+        factory.setServiceClass(HelloWorld.class);
+        factory.setAddress("http://localhost:9090/ws/HelloWorld");
+        HelloWorld helloworld = (HelloWorld) factory.create();
+        System.out.println(helloworld.sayHi("kongxx"));
+        System.exit(0);
+    }
+```
