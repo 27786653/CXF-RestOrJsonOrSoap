@@ -33,7 +33,7 @@
 		</pluginRepository>
 	</pluginRepositories>
 	<properties>
-		<spring.version>3.1.0.RELEASE</spring.version>
+		<spring.version>3.2.4.RELEASE</spring.version>
 		<cxf.version>2.7.18</cxf.version>
 	</properties>
 	<dependencies>
